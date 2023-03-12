@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: server-gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: periapical-service
+          uri: lb://periapical-service
+          predicates:
+            - Path=/api/periapical/**
+          filters:
+            - StripPrefix=2
+        - id: radiograph-service
+          uri: lb://radiograph-service
+          predicates:
+            - Path=/api/radiograph/**
+          filters:
+            - StripPrefix=2
+        - id: predict-service
+          uri: lb://predict-service
+          predicates:
+            - Path=/api/predictor/**
+          filters:
+            - StripPrefix=2
+server:
+  port: 8090
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
